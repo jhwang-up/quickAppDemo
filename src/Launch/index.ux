@@ -1,0 +1,32 @@
+<template>
+  <!-- template里只能有一个根节点 -->
+  <div class="start-page">
+    <image src="../Common/img/引导页2@2x.jpg"></image>
+  </div>
+</template>
+
+<script>
+import router from '@system.router'
+
+export default {
+  onInit() {
+    // 跳转到应用内的某个页面，router用法详见：文档->接口->页面路由
+    console.log('aaaaa');
+    setTimeout(() => {
+      router.push({
+        uri: '/Index',
+        // 携带clearTask时启动目标页面会清除此页面外的其他页面，
+        // 存在多个目标页面时只保留最先打开的目标页面并回调onRefresh生命周期。
+        // 如不存在目标页面时将清除所有页面并新建目标页面实例。
+        params: {
+          ___PARAM_LAUNCH_FLAG___: 'clearTask'
+        }
+      })
+    }, 3000);
+
+  }
+}
+</script>
+
+<style>
+</style>

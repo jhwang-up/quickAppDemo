@@ -1,25 +1,48 @@
 {
-  "package": "com.application.demo",
+  "package": "com.application.cathome",
   "name": "cat-home",
   "versionName": "1.0.0",
   "versionCode": "1",
   "minPlatformVersion": "1020",
   "icon": "/Common/logo.png",
   "features": [
-    { "name": "system.prompt" },
-    { "name": "system.router" },
-    { "name": "system.shortcut" }
+    {
+      "name": "system.prompt"
+    },
+    {
+      "name": "system.router"
+    },
+    {
+      "name": "system.shortcut"
+    },
+    {
+      "name": "system.fetch"
+    },
+    {
+      "name": "system.storage"
+    },
+    {
+      "name": "system.webview"
+    },
+    {
+      "name": "system.share"
+    }
   ],
   "permissions": [
-    { "origin": "*" }
+    {
+      "origin": "*"
+    }
   ],
   "config": {
-    "logLevel": "off"
+    "logLevel": "log"
   },
   "router": {
-    "entry": "Demo",
+    "entry": "Launch",
     "pages": {
-      "Demo": {
+      "Launch": {
+        "component": "index"
+      },
+      "Index": {
         "component": "index"
       },
       "DemoDetail": {
@@ -42,17 +65,21 @@
   "display": {
     "titleBarBackgroundColor": "#f2f2f2",
     "titleBarTextColor": "#414141",
+    "statusBarImmersive": true,
+    "statusBarBackgroundColor ": "#ffffff",
     "menu": true,
     "pages": {
-      "Demo": {
-        "titleBarText": "示例页",
-        "menu": false
+      "Index": {
+        "menu": false,
+        "titleBarBackgroundColor": "#ffffff"
       },
       "DemoDetail": {
-        "titleBarText": "详情页"
+        "titleBarText": "详情页",
+        "menu": true
       },
-      "About": {
-        "menu": false
+      "Launch": {
+        "menu": false,
+        "titleBarBackgroundColor": "#FC968D"
       }
     }
   }
