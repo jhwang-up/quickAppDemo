@@ -22,9 +22,10 @@ export default {
 
   },
   onBackPress() {
+    let time = null;
     if (this.first == null) {
       this.first = new Date().getTime();
-      setTimeout(() => {
+      time = setTimeout(() => {
         this.first = null;
       }, 2000);
       prompt.showToast({
@@ -32,10 +33,13 @@ export default {
       })
     } else {
       if (new Date().getTime() - this.first < 2000) {
-        this.$app.exit()
+        clearTimeout(time);
+        this.$app.exit();
       }
     }
     return true;
+  },
+  onDestroy() {
   },
   routeDetail() {
     // 跳转到应用内的某个页面，router用法详见：文档->接口->页面路由

@@ -1,7 +1,11 @@
 <template>
   <!-- template里只能有一个根节点 -->
   <div class="start-page">
-    <image src="../Common/img/引导页2@2x.jpg"></image>
+    <text class="num-span">{{num}} s</text>
+    <div class="text-box">
+      <text class="top">吃 喝 玩 乐 全面手</text>
+      <text class="bottom">做个优秀的猫奴</text>
+    </div>
   </div>
 </template>
 
@@ -9,6 +13,9 @@
 import router from '@system.router'
 
 export default {
+  private: {
+    num: 3
+  },
   onInit() {
     // 跳转到应用内的某个页面，router用法详见：文档->接口->页面路由
     console.log('aaaaa');
@@ -23,10 +30,53 @@ export default {
         }
       })
     }, 3000);
-
+    let timeInterval = setInterval(() => {
+      this.num--;
+    }, 1000);
   }
 }
 </script>
+<style lang="less" scoped>
+@import "./../Common/less/style.less";
 
-<style>
+.start-page {
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  background-image: url(../Common/img/start.jpg);
+  .num-span {
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 100px;
+    position: fixed;
+    right: 40px;
+    top: -20px;
+    padding: 6px 28px;
+    color: #ffffff;
+  }
+  .text-box {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 220px;
+    .top {
+      height: 82px;
+      font-size: 46px;
+      font-family: PingFangHK;
+      /* font-weight: 600; */
+      color: rgba(255, 255, 255, 1);
+      line-height: 62px;
+    }
+    .bottom {
+      height: 50px;
+      font-size: 38px;
+      font-family: PingFangHK;
+      /* font-weight: 600; */
+      color: rgba(255, 255, 255, 1);
+      line-height: 50px;
+    }
+  }
+}
 </style>

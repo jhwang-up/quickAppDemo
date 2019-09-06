@@ -1,4 +1,5 @@
 {
     "hap.typesVersion": "1050",
-    "eslint.enable": false
+    "eslint.enable": false,
+    "hap-debugger.autoCompile": true
 }
