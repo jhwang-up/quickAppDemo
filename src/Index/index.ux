@@ -1,26 +1,192 @@
 <template>
   <!-- template里只能有一个根节点 -->
-  <div class="demo-page">
-    <text class="title">欢迎打开{{title}}</text>
-    <!-- 点击跳转详情页 -->
-    <input class="btn" type="button" value="跳转到详情页" onclick="routeDetail" />
+  <div class="index-page" onclick="inputBlur">
+    <div class="top-box">
+      <input type="text" placeholder="搜索"></input>
+      <image class="message-image" src="../Common/img/message.svg"></image>
+    </div>
+    <tabs class="tabs" onchange="changeTabactive" index="0">
+      <tab-bar class="tab-bar">
+        <div class="tab-text-box">
+          <text class="tab-text">精选</text>
+          <div class="border-bottom"></div>
+        </div>
+        <div class="tab-text-box">
+          <text class="tab-text">视频</text>
+          <div class="border-bottom"></div>
+        </div>
+        <div class="tab-text-box">
+          <text class="tab-text">附近</text>
+          <div class="border-bottom"></div>
+        </div>
+      </tab-bar>
+
+      <tab-content class="tab-content" scrollable="false">
+        <!--1-->
+        <div class="item-container">
+
+          <div class="swiper-box">
+            <swiper class="swiper" indicator="true" autoplay="true" duration="1000">
+              <block for="{{imgList}}">
+                <div class="swiper-image-container">
+                  <image src="{{$item.imgUrl}}" style="object-fit: contain;" class="xui-col-12"></image>
+                </div>
+              </block>
+            </swiper>
+          </div>
+
+          <div class="icon-box">
+            <div class="item">
+              <image src="../Common/img/bangdan.png"></image>
+              <text>榜单</text>
+            </div>
+            <div class="item">
+              <image src="../Common/img/wenda.png"></image>
+              <text>问答</text>
+            </div>
+            <div class="item">
+              <image src="../Common/img/huati.png"></image>
+              <text>话题</text>
+            </div>
+            <div class="item">
+              <image src="../Common/img/daren.png"></image>
+              <text>达人</text>
+            </div>
+          </div>
+
+          <!-- 胶囊box -->
+          <div class="ad-box">
+            <image class="ad-img" src="../Common/img/ad-img.svg"></image>
+            <text>“猫猫的心思”你真的知道吗？</text>
+            <image class="arrow-img" src="../Common/img/arrow-right.svg"></image>
+
+          </div>
+          <div class="list-box">
+            <!-- 列表 =========================-->
+            <list class="list-content" scrollpage="false" onscroll="handleScroll" onscrollbottom="scrollbottom" id="list" onscrolltouchup="scrolltouchup" onscrollend="scrollend">
+              <!-- 列表元素，属性type值相同时，需要确保渲染中dom结构相同 -->
+              <list-item type="listItem" class="list-item item-color" for="{{listData}}">
+                <div class="item-top">
+                  <div class="info-left">
+                    <image src="../Common/img/userImg.png"></image>
+                  </div>
+                  <div class="info-between">
+                    <text class="user-name">药药是个大吃货</text>
+                    <text class="user-des">小小作评家</text>
+                  </div>
+                  <div class="info-right">
+                    <text class="guanzhu-btn">关注</text>
+                  </div>
+                </div>
+                <div class="item-center">
+                  <text>大型活动肯定是囤货出行装备啊，😊😊黑卡优惠 噢耶～像猫猫咪出行必备的背包，挂袋。皇家猫粮，营养膏。。。</text>
+                  <image src="../Common/img/item-img.jpg"></image>
+                </div>
+                <div class="item-bottom">
+                  <text>点赞 99+</text>
+                </div>
+              </list-item>
+
+              <!-- 加载更多 -->
+              <list-item type="loadMore" class="load-more" if="{{loadMore}}">
+                <progress type="circular"></progress>
+                <text>加载更多</text>
+              </list-item>
+            </list>
+          </div>
+
+        </div>
+
+        <!--2-->
+        <div class="item-container">
+          <text class="item-title">22222</text>
+        </div>
+
+        <!--3-->
+        <div class="item-container">
+          <text>333333</text>
+        </div>
+
+      </tab-content>
+    </tabs>
   </div>
 </template>
 
 <script>
 import router from '@system.router'
 import prompt from '@system.prompt'
+import fetch from '@system.fetch'
+
 
 export default {
   // 页面级组件的数据模型，影响传入数据的覆盖机制：private内定义的属性不允许被覆盖
   private: {
-    title: '示例页面',
-    first: null
+    first: null,
+    imgList: [{
+      imgUrl: "../Common/img/banner.png"
+    }, {
+      imgUrl: "../Common/img/banner.png"
+    }, {
+      imgUrl: "../Common/img/banner.png"
+    },],
+    loadMore: true,
+    listAdd: ['A', 'B', 'C', 'D', 'E'],
+    listData: []
   },
   onInit() {
-    // console.log((new Date()).getTime());
+    this.listData = [].concat(this.listAdd);
+    console.log('list' + this.listData);
 
+    // 请求图片地址
+    // $apis.firstPage.getImgList().then(data => {
+    //   // debugger;
+
+    //   for (let i = 0; i < data.length; i++) {
+    //     let obj = {};
+    //     obj.imgUrl = "http://127.0.0.1:3000/" + data[i].imgUrl;
+    //     this.imgList.push(obj);
+    //   }
+    //   console.log(this.imgList);
+    // },
+    //   () => {
+    //     prompt.showToast({
+    //       message: 'error'
+    //     })
+    //   }
+    // )
   },
+  scrollbottom() {
+    // 加载下一页
+    const self = this
+    const renderData = [].concat(self.listData, self.listAdd)
+    setTimeout(function () {
+      self.listData = renderData
+    }, 1000)
+  },
+  handleScroll(param) {
+    if (param.scrollState === 0) {
+      console.info(`### handleScroll ### scrollState: ${param.scrollState}, scrollX: ${param.scrollX}, scrollY: ${param.scrollY}`)
+    }
+  },
+  scrolltouchup() {
+    prompt.showToast({
+      message: 'touch up'
+    })
+  },
+  scrollend() {
+    prompt.showToast({
+      message: 'scroll end'
+    })
+  },
+  inputBlur() {
+    // console.log('blur~~~~~~~~');
+    // this.$element('#search-input').focus({ focus: false })
+  },
+  changeTabactive(e) {
+    // 切换tab
+    console.info('切换tab: ' + e.index)
+  },
+
   onBackPress() {
     let time = null;
     if (this.first == null) {
@@ -39,8 +205,6 @@ export default {
     }
     return true;
   },
-  onDestroy() {
-  },
   routeDetail() {
     // 跳转到应用内的某个页面，router用法详见：文档->接口->页面路由
     router.push({
@@ -50,25 +214,258 @@ export default {
 }
 </script>
 
-<style>
-.demo-page {
+<style lang="less" scoped>
+.tabs {
+  flex: 1;
+  margin-top: 30px;
+  background-color: #ffffff;
+}
+.tab-content {
+  flex: 1;
+}
+.item-container {
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
-
-.title {
-  font-size: 40px;
+.tab-bar {
+  width: 380px;
+  height: 64px;
+  color: #bbbbbb;
+}
+.tab-text-box {
+  flex-direction: column;
+  align-items: center;
+}
+.tab-text {
+  height: 48px;
   text-align: center;
+  font-size: 28px;
+  font-family: PingFangHK;
+  font-weight: 600;
+  color: rgba(51, 51, 51, 1);
+  margin-bottom: 12px;
 }
 
-.btn {
-  width: 550px;
-  height: 86px;
-  margin-top: 75px;
-  border-radius: 43px;
-  background-color: #09ba07;
-  font-size: 30px;
-  color: #ffffff;
+.border-bottom:active {
+  border-bottom: 4px solid rgba(250, 114, 104, 1);
+  width: 50px;
+  height: 4px;
+}
+.tab-text:active {
+  height: 48px;
+  font-size: 36px;
+  font-family: PingFangHK;
+  font-weight: bolder;
+  color: rgba(51, 51, 51, 1);
+}
+
+.index-page {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  .top-box {
+    width: 750px;
+    padding-left: 30px;
+    padding-top: 80px;
+
+    input {
+      width: 620px;
+      height: 60px;
+      padding-left: 72px;
+      line-height: 60px;
+      border-radius: 30px;
+      font-size: 28px;
+      font-family: PingFangHK;
+      font-weight: 400;
+      color: rgba(142, 142, 147, 1);
+      background-image: url(../Common/img/search.png);
+      background-size: 30px;
+      background-repeat: no-repeat;
+      background-position: 22px center;
+      placeholder-color: #8e8e93;
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+    /* input:focus {
+    } */
+
+    .message-image {
+      margin-left: 26px;
+      width: 48px;
+      height: 48px;
+    }
+  }
+
+  .swiper-box {
+    width: 750px;
+    height: 250px;
+
+    .swiper {
+      indicator-color: #ffffff;
+      indicator-selected-color: #f8e71c;
+      indicator-size: 10px;
+      indicator-bottom: 20px;
+    }
+  }
+
+  .icon-box {
+    justify-content: space-between;
+    align-items: flex-start;
+    border-radius: 38px;
+    background-image: url(../Common/img/box-shadow.png);
+    background-size: 714px 266px;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 750px;
+    height: 280px;
+    padding: 50px 80px 10px 80px;
+    margin-top: -20px;
+    .item {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      image {
+        width: 126px;
+      }
+
+      text {
+        height: 22px;
+        font-size: 22px;
+        font-family: PingFangHK;
+        font-weight: 400;
+        color: rgba(51, 51, 51, 1);
+        line-height: 22px;
+        margin-top: -10px;
+        padding-left: 2px;
+      }
+    }
+  }
+
+  .ad-box {
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: -25px;
+    width: 750px;
+    padding: 0 20px;
+    .ad-img {
+      width: 135px;
+      height: 39px;
+      margin-right: 20px;
+    }
+    text {
+      width: 517px;
+      font-size: 30px;
+      font-family: PingFangHK;
+      font-weight: 400;
+      color: rgba(136, 136, 136, 1);
+    }
+    .arrow-img{
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  .list-box {
+    .list-content {
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      flex-wrap: wrap;
+      width: 750px;
+      height: 846px;
+      flex: 1;
+
+      .list-item {
+        width: 750px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        border-top: 2px solid rgba(246, 247, 248, 1);
+        .item-top {
+          width: 710px;
+          justify-content: flex-start;
+          align-items: center;
+
+          .info-left {
+            width: 80px;
+            height: 80px;
+            margin-right: 10px;
+
+            image {
+              width: 76px;
+              height: 76px;
+              border-radius: 76px;
+            }
+          }
+          .info-between {
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            width: 400px;
+            .user-name {
+              height: 40px;
+              font-size: 32px;
+              font-family: PingFangHK;
+              font-weight: 400;
+              color: rgba(51, 51, 51, 1);
+              line-height: 40px;
+            }
+            .user-des {
+              height: 28px;
+              font-size: 20px;
+              font-family: PingFangHK;
+              font-weight: 400;
+              color: rgba(153, 153, 153, 1);
+              line-height: 28px;
+            }
+          }
+          .info-right {
+            width: 230px;
+            height: 78px;
+            justify-content: flex-end;
+            align-items: flex-end;
+            padding-right: 53px;
+            .guanzhu-btn {
+              background-color: #ffffff;
+              width: 120px;
+              height: 46px;
+              border-radius: 25px;
+              border: 2px solid rgba(250, 114, 104, 1);
+              text-align: center;
+              font-size: 28px;
+              font-family: PingFangHK;
+              font-weight: 400;
+              color: rgba(250, 114, 104, 1);
+            }
+          }
+        }
+
+        .item-center {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          padding: 24px 0 20px;
+          image {
+            margin-top: 10px;
+            width: 710px;
+          }
+        }
+
+        .item-bottom {
+        }
+      }
+      .load-more {
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+        border-color: #bbbbbb;
+        border-bottom-width: 1px;
+      }
+    }
+  }
 }
 </style>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53 (72520) - https://sketchapp.com -->
+    <title>分组</title>
+    <desc>Created with Sketch.</desc>
+    <g id="组件" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Feed流/标签/vip">
+            <g id="分组">
+                <circle id="椭圆形" stroke="#FFFBFA" fill="#FA7268" cx="12" cy="12" r="11.5"></circle>
+                <text id="V" font-family="PingFangHK-Regular, PingFang HK" font-size="14" font-weight="normal" letter-spacing="-0.2599999" fill="#FFFBFA">
+                    <tspan x="8" y="18">V</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

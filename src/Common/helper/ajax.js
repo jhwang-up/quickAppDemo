@@ -2,7 +2,13 @@
 
 import $fetch from '@system.fetch'
 import $utils from './utils'
-
+Promise.prototype.finally = function (callback) {
+  const P = this.constructor
+  return this.then(
+    value => P.resolve(callback()).then(() => value),
+    reason => P.resolve(callback()).then(() => { throw reason })
+  )
+}
 function requestHandle(params) {
   return new Promise((resolve, reject) => {
     $fetch.fetch({
@@ -11,13 +17,12 @@ function requestHandle(params) {
       data: params.data,
       success: data => {
         /* @desc: 优化！存储请求返回的时间，以保证可能需要使用时间的正确性; */
-        $utils.setCurrentTime(data.headers.Date)
-
+        $utils.setCurrentTime(data.headers['content-type'])
         const serverResponse = JSON.parse(data.data)
-        if (serverResponse.success) {
-          resolve(serverResponse.value)
+        if (serverResponse) {
+          resolve(serverResponse)
         } else {
-          resolve(serverResponse.message)
+          resolve(serverResponse)
         }
       },
       fail: (data, code) => {

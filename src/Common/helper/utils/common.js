@@ -3,7 +3,7 @@
 export default {
   /* @desc: 统一组装 HTTP 请求的 Url 地址 */
   composeApiPath(apiName) {
-    const requestBaseUrl = 'http://39.108.93.82:8888/api/'
+    const requestBaseUrl = 'http://127.0.0.1:3000/'
     return `${requestBaseUrl}${apiName}`
   },
 

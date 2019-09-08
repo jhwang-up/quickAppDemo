@@ -3,7 +3,7 @@
   "name": "cat-home",
   "versionName": "1.0.0",
   "versionCode": "1",
-  "minPlatformVersion": "1020",
+  "minPlatformVersion": "1000",
   "icon": "/Common/logo.png",
   "features": [
     {
@@ -25,7 +25,13 @@
       "name": "system.webview"
     },
     {
-      "name": "system.share"
+      "name": "service.share",
+      "params": {
+        "appSign": "abcdefg...",
+        "qqKey": "1234567",
+        "wxKey": "wx1234",
+        "sinaKey": "1234"
+      }
     }
   ],
   "permissions": [
@@ -65,20 +71,22 @@
   "display": {
     "titleBarBackgroundColor": "#f2f2f2",
     "titleBarTextColor": "#414141",
-    "statusBarImmersive": true,
     "statusBarBackgroundColor ": "#ffffff",
     "menu": true,
     "pages": {
       "Index": {
-        "menu": false,
-        "titleBarBackgroundColor": "#ffffff"
+        "titleBar": false,
+        "titleBarBackgroundColor": "#ffffff",
+        "statusBarBackgroundOpacity": 0,
+        "statusBarImmersive": true,
+        "statusBarTextStyle": "auto"
       },
       "DemoDetail": {
         "titleBarText": "详情页",
         "menu": true
       },
       "Launch": {
-        "menu": false,
+        "titleBar": false,
         "titleBarBackgroundColor": "#FC968D"
       }
     }
